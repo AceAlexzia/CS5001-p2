@@ -19,25 +19,32 @@ public class ProductRecord implements IProductRecord {
     @Override
     public int getNumberOfSales() {
         // TODO Auto-generated method stub
-        return 0;
+        return saleNumber;
     }
 
     @Override
     public int getNumberAvailable() {
         // TODO Auto-generated method stub
-        return 0;
+        return availableNumber;
     }
 
     @Override
     public void addItem() {
         // TODO Auto-generated method stub
-
+        availableNumber++;
     }
 
     @Override
     public void buyItem() throws ProductUnavailableException {
         // TODO Auto-generated method stub
+        if (availableNumber <= 0) {
+
+        }
+        availableNumber--;
+        saleNumber++;
 
     }
 
+    private int saleNumber;
+    private int availableNumber;
 }

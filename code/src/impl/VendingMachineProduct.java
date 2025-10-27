@@ -1,5 +1,6 @@
 package impl;
 
+import interfaces.IProductRecord;
 import interfaces.IVendingMachineProduct;
 
 /**
@@ -11,13 +12,21 @@ public class VendingMachineProduct implements IVendingMachineProduct {
     @Override
     public String getLaneCode() {
         // TODO Auto-generated method stub
-        return null;
+        return laneCode;
     }
 
     @Override
     public String getDescription() {
         // TODO Auto-generated method stub
-        return null;
+        return description;
     }
 
+    public VendingMachineProduct(String laneCode, String description) {
+        this.laneCode = laneCode;
+        this.description = description;
+    }
+
+    private String laneCode;
+    private String description;
+    private IProductRecord productRecord;
 }

@@ -32,7 +32,8 @@ public final class Factory implements IFactory {
     @Override
     public IVendingMachineProduct makeVendingMachineProduct(String laneCode, String description) {
         // TODO Auto-generated method stub
-        return null;
+        VendingMachineProduct vendingMachineProduct = new VendingMachineProduct(laneCode, description);
+        return vendingMachineProduct;
     }
 
     @Override
