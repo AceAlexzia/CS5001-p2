@@ -46,7 +46,7 @@ public class VendingMachine implements IVendingMachine {
             IVendingMachineProduct product = keys.nextElement();
             IProductRecord record = registerProduct.get(product);
 
-            if (vendingMachineProduct.getLaneCode().equals(product.getLaneCode())) {
+            if (vendingMachineProduct.getLaneCode().equals(product.getLaneCode()) && vendingMachineProduct.getDescription().equals(product.getDescription())) {
                 checkProduct = product;
                 break;
             }

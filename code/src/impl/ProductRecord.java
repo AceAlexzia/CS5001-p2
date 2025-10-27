@@ -50,6 +50,10 @@ public class ProductRecord implements IProductRecord {
         availableNumber = 0;
         this.product = product;
     }
+    public void printRecord() {
+        System.out.println("Product:" + product.getLaneCode() + ", description:" + product.getDescription() + ", SaleNumber:" + saleNumber + ", availableNumber:" + availableNumber);
+    }
+
     private int saleNumber;
     private int availableNumber;
     private IVendingMachineProduct product;
