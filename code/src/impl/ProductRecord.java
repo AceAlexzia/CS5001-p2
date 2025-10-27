@@ -13,7 +13,7 @@ public class ProductRecord implements IProductRecord {
     @Override
     public IVendingMachineProduct getProduct() {
         // TODO Auto-generated method stub
-        return null;
+        return product;
     }
 
     @Override
@@ -38,13 +38,19 @@ public class ProductRecord implements IProductRecord {
     public void buyItem() throws ProductUnavailableException {
         // TODO Auto-generated method stub
         if (availableNumber <= 0) {
-
+            throw new ProductUnavailableException();
         }
         availableNumber--;
         saleNumber++;
 
     }
 
+    public ProductRecord(IVendingMachineProduct product) {
+        saleNumber = 0;
+        availableNumber = 0;
+        this.product = product;
+    }
     private int saleNumber;
     private int availableNumber;
+    private IVendingMachineProduct product;
 }

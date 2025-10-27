@@ -28,5 +28,4 @@ public class VendingMachineProduct implements IVendingMachineProduct {
 
     private String laneCode;
     private String description;
-    private IProductRecord productRecord;
 }
