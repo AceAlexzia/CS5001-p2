@@ -9,6 +9,11 @@ import interfaces.IVendingMachineProduct;
  */
 public class VendingMachineProduct implements IVendingMachineProduct {
 
+    VendingMachineProduct(String laneCode, String description) {
+        this.laneCode = laneCode;
+        this.description = description;
+    }
+
     @Override
     public String getLaneCode() {
         // TODO Auto-generated method stub

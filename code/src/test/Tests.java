@@ -90,7 +90,7 @@ public class Tests {
      * Tests the unsuccessful registration of multiple products in the vending machine.
      * <p>
      * This test verifies that products cannot be correctly registered with
-     * encountering LaneCodeAlreadyInUseException,
+     * encountering {@code LaneCodeAlreadyInUseException}.
      * </p>
      *
      * <p>
@@ -99,7 +99,7 @@ public class Tests {
      * </p>
      *
      * @throws LaneCodeAlreadyInUseException if a product with a duplicate lane code is registered,
-     *         though this exception is not expected in this test case.
+     *         this exception is <b>expected</b> in this test case.
      */
     @Test
     public void registerProductTestFail() throws LaneCodeAlreadyInUseException {
@@ -110,6 +110,17 @@ public class Tests {
         vendingMachine.registerProduct(product4);
         vendingMachine.registerProduct(product5);
     }
+    /**
+     * Tests the successful count number of products after register in the vending machine.
+     * <p>
+     * This test verifies that products can be correctly counted without
+     * encountering any exceptions, and that the total number of registered
+     * products matches the expected value.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a product with a duplicate lane code is registered,
+     *         though this exception is not expected in this test case.
+     */
     @Test
     public void countNumberOfProductsTestSuccess() throws LaneCodeAlreadyInUseException {
         vendingMachine.registerProduct(product1);
@@ -118,6 +129,25 @@ public class Tests {
         final int expected = 3;
         assertEquals(expected, vendingMachine.getNumberOfProducts());
     }
+    /**
+     * Tests the successful unregistration of multiple products in the vending machine.
+     * <p>
+     * This test verifies that products can be correctly unregistered without
+     * encountering any exceptions, and that the total number of registered
+     * products matches the expected value.
+     * </p>
+     *
+     * <p>
+     * Specifically, it unregisters five unique {@code VendingMachineProduct} instances
+     * and asserts that the vending machine reports having 0 products afterward.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a product with a duplicate lane code is registered,
+     *         though this exception is not expected in this test case.
+     *
+     * @throws LaneCodeNotRegisteredException if a product with a product is not registered,
+     *          though this exception is not expected in this test case.
+     */
     @Test
     public void unRegisterProductTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException {
         vendingMachine.registerProduct(product1);
@@ -134,18 +164,45 @@ public class Tests {
         final int expected = 0;
         assertEquals(expected, vendingMachine.getNumberOfProducts());
     }
+    /**
+     * Tests the unsuccessful unregistration of a product in the vending machine.
+     * <p>
+     * This test verifies that products with the same LenCode but different name cannot be unregistered and
+     * encountering {@code  LaneCodeNotRegisteredException}.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a product with a duplicate lane code is registered,
+     *         this exception is not expected in this test case.
+     *
+     * @throws LaneCodeNotRegisteredException if a product with a product is not registered,
+     *          though this exception is <b>expected</b> in this test case.
+     */
     @Test
     public void unRegisterProductTestFailWithoutTheSameLaneCode() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException {
         vendingMachine.registerProduct(product1);
         vendingMachine.registerProduct(product2);
         vendingMachine.unregisterProduct(product3);
     }
+    /**
+     * Tests the unsuccessful unregistration of a product in the vending machine.
+     * <p>
+     * This test verifies that products with unregistered LenCode cannot be unregistered and
+     * encountering {@code  LaneCodeNotRegisteredException}.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a product with a duplicate lane code is registered,
+     *         this exception is not expected in this test case.
+     *
+     * @throws LaneCodeNotRegisteredException if a product with a product is not registered,
+     *          though this exception is <b>expected</b> in this test case.
+     */
     @Test
     public void unRegisterProductTestFailWithTheSameLaneCode() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException {
         vendingMachine.registerProduct(product1);
         vendingMachine.registerProduct(product2);
         vendingMachine.unregisterProduct(product6);
     }
+
     @Test
     public void addItemTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException {
         vendingMachine.registerProduct(product1);
