@@ -20,12 +20,6 @@ public class VendingMachineProduct implements IVendingMachineProduct {
         // TODO Auto-generated method stub
         return description;
     }
-
-    public VendingMachineProduct(String laneCode, String description) {
-        this.laneCode = laneCode;
-        this.description = description;
-    }
-
     private String laneCode;
     private String description;
 }

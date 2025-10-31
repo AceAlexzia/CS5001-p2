@@ -33,6 +33,23 @@ public class Tests {
     private IVendingMachineProduct product5;
     private IVendingMachineProduct product6;
 
+    /**
+     * Sets up the test environment before each test case is executed.
+     * <p>
+     * This method initializes a new instance of the {@code VendingMachine} and
+     * several {@code VendingMachineProduct} objects with sample data. It uses
+     * the {@code Factory} singleton to create these instances. Each product is
+     * assigned a unique slot code and name, except {@code product6}, which
+     * intentionally shares the same slot code ("00") as {@code product1} for
+     * testing duplicate slot behavior.
+     * </p>
+     *
+     * <p>
+     * This method is annotated with {@link org.junit.jupiter.api.BeforeEach},
+     * meaning it runs automatically before every test method in the test class
+     * to ensure a consistent and isolated test setup.
+     * </p>
+     */
     @BeforeEach
     public void setup() {
         vendingMachine = Factory.getInstance().makeVendingMachine();
@@ -43,6 +60,22 @@ public class Tests {
         product5 = Factory.getInstance().makeVendingMachineProduct("04", "Sprite");
         product6 = Factory.getInstance().makeVendingMachineProduct("00", "Tanuki");
     }
+    /**
+     * Tests the successful registration of multiple products in the vending machine.
+     * <p>
+     * This test verifies that products can be correctly registered without
+     * encountering any exceptions, and that the total number of registered
+     * products matches the expected value.
+     * </p>
+     *
+     * <p>
+     * Specifically, it registers five unique {@code VendingMachineProduct} instances
+     * and asserts that the vending machine reports having five products afterward.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a product with a duplicate lane code is registered,
+     *         though this exception is not expected in this test case.
+     */
     @Test
     public void registerProductTestSuccess() throws LaneCodeAlreadyInUseException {
         vendingMachine.registerProduct(product1);
@@ -53,7 +86,21 @@ public class Tests {
         final int expected = 5;
         assertEquals(expected, vendingMachine.getNumberOfProducts());
     }
-
+    /**
+     * Tests the unsuccessful registration of multiple products in the vending machine.
+     * <p>
+     * This test verifies that products cannot be correctly registered with
+     * encountering LaneCodeAlreadyInUseException,
+     * </p>
+     *
+     * <p>
+     * Specifically, it registers five unique {@code VendingMachineProduct} instances
+     * and asserts that the vending machine reports having five products afterward.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a product with a duplicate lane code is registered,
+     *         though this exception is not expected in this test case.
+     */
     @Test
     public void registerProductTestFail() throws LaneCodeAlreadyInUseException {
         vendingMachine.registerProduct(product1);
