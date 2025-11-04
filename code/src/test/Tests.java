@@ -202,7 +202,17 @@ public class Tests {
         vendingMachine.registerProduct(product2);
         vendingMachine.unregisterProduct(product6);
     }
-
+    /**
+     * Tests the successful addition of items to a registered product in the vending machine.
+     * <p>
+     * This test ensures that when valid lane codes are provided, items are correctly added to
+     * the product’s stock count. It verifies that the number of items in lane code "00" matches
+     * the expected count after multiple additions.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if an invalid lane code is used (not expected in this test).
+     */
     @Test
     public void addItemTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException {
         vendingMachine.registerProduct(product1);
@@ -214,12 +224,34 @@ public class Tests {
         assertEquals(expected, vendingMachine.getNumberOfItems("00"));
 
     }
+    /**
+     * Tests the unsuccessful addition of an item using an unregistered lane code.
+     * <p>
+     * This test verifies that attempting to add an item with a lane code ("06") that is not
+     * registered in the vending machine triggers an appropriate exception.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException expected when adding an item with an unregistered lane code.
+     */
     @Test
     public void addItemTestFail() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException {
         vendingMachine.registerProduct(product1);
         vendingMachine.registerProduct(product2);
         vendingMachine.addItem("06");
     }
+
+    /**
+     * Tests that the sale count increases correctly when items are purchased successfully.
+     * <p>
+     * This test registers a product, adds two items, and performs two purchases.
+     * It asserts that the vending machine correctly tracks the number of sales.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (not expected).
+     * @throws ProductUnavailableException if a product is unavailable for purchase (not expected).
+     */
     @Test
     public void buyItemSaleCountTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -230,6 +262,17 @@ public class Tests {
         final int expected = 2;
         assertEquals(expected, vendingMachine.getNumberOfSales("00"));
     }
+    /**
+     * Tests the unsuccessful retrieval of a product sale count using an invalid lane code.
+     * <p>
+     * This test verifies that querying sales information for a non-existent product ("10")
+     * should trigger an exception or error.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (expected in this case).
+     * @throws ProductUnavailableException if the product is unavailable (not expected).
+     */
     @Test
     public void buyItemSaleCountTestFail() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -239,7 +282,17 @@ public class Tests {
         vendingMachine.buyItem("00");
         vendingMachine.getNumberOfSales("10");
     }
-
+    /**
+     * Tests that the total item count decreases correctly after purchases.
+     * <p>
+     * This test registers a product, adds items, and buys all of them.
+     * It asserts that the total number of items remaining is zero.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (not expected).
+     * @throws ProductUnavailableException if the product is unavailable (not expected).
+     */
     @Test
     public void buyItemDecreaseCountTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -250,6 +303,17 @@ public class Tests {
         final int expected = 0;
         assertEquals(expected, vendingMachine.getTotalNumberOfItems());
     }
+    /**
+     * Tests that the number of items decreases correctly after a purchase.
+     * <p>
+     * This test ensures that when one item is bought, the remaining quantity in that lane code
+     * is decremented by one.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (not expected).
+     * @throws ProductUnavailableException if the product is unavailable (not expected).
+     */
     @Test
     public void buyItemTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -260,6 +324,17 @@ public class Tests {
         vendingMachine.buyItem("00");
         assertEquals(expected, vendingMachine.getNumberOfItems("00"));
     }
+    /**
+     * Tests that the total number of items is correctly updated after a purchase.
+     * <p>
+     * This test verifies that the overall count of items in the vending machine decreases
+     * when a product is purchased.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (not expected).
+     * @throws ProductUnavailableException if the product is unavailable (not expected).
+     */
     @Test
     public void countAfterBuyTotalItemTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -271,6 +346,17 @@ public class Tests {
         final int expected = 2;
         assertEquals(expected, vendingMachine.getTotalNumberOfItems());
     }
+    /**
+     * Tests the unsuccessful purchase of an item using an invalid lane code.
+     * <p>
+     * This test verifies that attempting to buy an item with an unregistered code ("09")
+     * results in an exception being thrown.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException expected when attempting to buy from an unregistered code.
+     * @throws ProductUnavailableException if the product is unavailable (not expected).
+     */
     @Test
     public void buyItemTestFailWrongCode() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -279,6 +365,17 @@ public class Tests {
         vendingMachine.addItem("00");
         vendingMachine.buyItem("09");
     }
+    /**
+     * Tests the unsuccessful purchase of an item when it is out of stock.
+     * <p>
+     * This test verifies that purchasing more items than are available triggers
+     * a {@code ProductUnavailableException}.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (not expected).
+     * @throws ProductUnavailableException expected when the product is out of stock.
+     */
     @Test
     public void buyItemTestFailOutOfStock() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -286,20 +383,41 @@ public class Tests {
         vendingMachine.buyItem("00");
         vendingMachine.buyItem("00");
     }
+    /**
+     * Tests the correct retrieval of the number of items for a specific lane code.
+     * <p>
+     * This test ensures that the vending machine correctly counts the number of items
+     * available for a given lane code ("01").
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if the lane code is invalid (not expected).
+     * @throws ProductUnavailableException if the product is unavailable (not expected).
+     */
     @Test
     public void getNumberOfItemByCodeTestSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
         vendingMachine.registerProduct(product2);
         vendingMachine.registerProduct(product3);
         vendingMachine.addItem("00");
-        vendingMachine.buyItem("01");
-        vendingMachine.buyItem("01");
-        vendingMachine.getNumberOfItems("02");
-        vendingMachine.getNumberOfItems("02");
-        vendingMachine.getNumberOfItems("02");
-        final int expected = 3;
-        assertEquals(expected, vendingMachine.getNumberOfItems("02"));
+        vendingMachine.addItem("01");
+        vendingMachine.addItem("01");
+        vendingMachine.addItem("01");
+        vendingMachine.addItem("01");
+        final int expected = 4;
+        assertEquals(expected, vendingMachine.getNumberOfItems("01"));
     }
+    /**
+     * Tests the unsuccessful retrieval of the number of items using an invalid lane code.
+     * <p>
+     * This test checks that requesting the number of items for a non-existent lane code ("05")
+     * triggers an appropriate exception.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException expected when an invalid lane code is queried.
+     * @throws ProductUnavailableException if the product is unavailable (not expected).
+     */
     @Test
     public void getNumberOfItemByCodeTestFail() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -307,7 +425,17 @@ public class Tests {
         vendingMachine.buyItem("00");
         vendingMachine.getNumberOfItems("05");
     }
-
+    /**
+     * Tests the total count of all items across all products in the vending machine.
+     * <p>
+     * This test verifies that the vending machine correctly reports the combined total
+     * number of items for all registered products.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (not expected).
+     * @throws ProductUnavailableException if a product is unavailable (not expected).
+     */
     @Test
     public void getNumberOfAllItemSuccessTest() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -321,6 +449,17 @@ public class Tests {
         final int expected = 5;
         assertEquals(expected, vendingMachine.getTotalNumberOfItems());
     }
+    /**
+     * Tests retrieval of the most popular product based on sales count.
+     * <p>
+     * This test ensures that the vending machine correctly identifies and returns
+     * the product with the highest number of sales.
+     * </p>
+     *
+     * @throws LaneCodeAlreadyInUseException if a duplicate lane code is registered (not expected).
+     * @throws LaneCodeNotRegisteredException if a product is not registered (not expected).
+     * @throws ProductUnavailableException if a product is unavailable (not expected).
+     */
     @Test
     public void getMostPopularSuccess() throws LaneCodeAlreadyInUseException, LaneCodeNotRegisteredException, ProductUnavailableException {
         vendingMachine.registerProduct(product1);
@@ -338,17 +477,36 @@ public class Tests {
         final String expected = "02";
         assertEquals(expected, vendingMachine.getMostPopular().getLaneCode());
     }
+    /**
+     * Tests that the factory successfully creates a non-null vending machine product.
+     * <p>
+     * This verifies that the {@code Factory} can instantiate a valid {@code IVendingMachineProduct}
+     * object with a given lane code and name.
+     * </p>
+     */
     @Test
     public void vendingMachineProductNotNull() {
         IVendingMachineProduct vendingMachineProduct = Factory.getInstance().makeVendingMachineProduct("A1", "Haggis Crisps");
         assertNotNull(vendingMachineProduct);
     }
+    /**
+     * Tests that the factory successfully creates a non-null vending machine instance.
+     * <p>
+     * This verifies that the {@code Factory} correctly returns a valid {@code IVendingMachine} object.
+     * </p>
+     */
     @Test
     public void vendingMachineNull() {
         IVendingMachine vendingMachine1 = Factory.getInstance().makeVendingMachine();
         assertNotNull(vendingMachine1);
     }
-
+    /**
+     * Tests that the factory successfully creates a non-null product record.
+     * <p>
+     * This verifies that the {@code Factory} can create a {@code IProductRecord} object
+     * when provided with a valid {@code IVendingMachineProduct}.
+     * </p>
+     */
     @Test
     public void productNotNull() {
         IVendingMachineProduct vendingMachineProduct = Factory.getInstance().makeVendingMachineProduct("A1", "Haggis Crisps");
